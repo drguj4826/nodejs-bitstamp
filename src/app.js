@@ -1,25 +1,18 @@
-const path = require('path');
-const express = require('express');
-const request = require('request');
+const https = require('https');
 
+const url = 'https://www.bitstamp.net/api/v2/ticker/';
 
-// const api = require('./routes/api');
+https.get(url, (res) => {
+  let data = '';
 
-const { application } = require('express');
-
-const app = express();
-
-
-app.get('/data', async (req, res) => {
-    try {
-      const response = await fetch("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
-      res.status(200).json({result: req.bodyresponse});
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(); 
-    }
+  res.on('data', (chunk) => {
+    data += chunk;
   });
 
+  res.on('end', () => {
+    console.log(data);
+  });
 
-
-module.exports = app;
+}).on("error", (err) => {
+  console.log("Error: " + err.message);
+});
