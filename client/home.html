@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitstamp</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Bitstamp</h1>
+    <button id="dailyPriceBtn">DailyPrice</button>
+    <button id="weeklyPriceBtn">WeeklyPrice</button>
+    <button id="monthlyPriceBtn">MonthlyPrice</button>
+    <div id="response"></div>
+
+    <script>
+        $(document).ready(function() {
+            $("#dailyPriceBtn").click(function() {
+                fetchData("daily");
+            });
+            $("#weeklyPriceBtn").click(function() {
+                fetchData("weekly");
+            });
+            $("#monthlyPriceBtn").click(function() {
+                fetchData("monthly");
+            });
+
+            function fetchData(interval) {
+                $.ajax({
+                    url: "/data",
+                    method: "GET",
+                    data: {interval: interval},
+                    success: function(response) {
+                        $("#response").text(response);
+                    },
+                    error: function() {
+                        $("#response").text("發生錯誤，無法取得資料！");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
